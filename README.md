@@ -32,34 +32,36 @@ Traditional resource allocation strategies often rely on static thresholds or ru
 ```bash
 git clone https://github.com/your-username/gpu-resource-allocation.git
 cd gpu-resource-allocation
-
+```
 ### 2. Install dependencies:
 ```bash
 pip install -r requirements.txt
-
+```
 ### 3. Run the simulation:
 ```bash
 python main.py
+```
 
-📊 Output & Results
+### Output & Results
 
-📈 Predicted vs. Actual GPU usage
-🎯 RL Agent Reward Curve
-🧠 Allocation efficiency over time
+- 📈 Predicted vs. Actual GPU usage
+- 🎯 RL Agent Reward Curve
+- 🧠 Allocation efficiency over time
 
-🔧 Sample Use Cases
+### Sample Use Cases
 
-Dynamic GPU scheduling in cloud platforms
-Resource optimization in HPC clusters
-Cost reduction in AI/ML training jobs
-Fair resource allocation across tenants
+- Dynamic GPU scheduling in cloud platforms
+- Resource optimization in HPC clusters
+- Cost reduction in AI/ML training jobs
+- Fair resource allocation across tenants
 
-🚧 Future Enhancements
+### Future Enhancements
 
-Integration with live GPU stats (e.g., NVIDIA-SMI)
-Support for multi-agent scheduling in clusters
-Job prioritization and SLA-aware scheduling
-Web-based dashboard for monitoring
+- Integration with live GPU stats (e.g., NVIDIA-SMI)
+- Support for multi-agent scheduling in clusters
+- Job prioritization and SLA-aware scheduling
+- Web-based dashboard for monitoring
 
-👨‍💻 Author
-Samad Mehndi
+## Author
+
+**Samad Mehndi**
