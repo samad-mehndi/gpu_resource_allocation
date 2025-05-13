@@ -16,30 +16,35 @@ class GpuEnv(gym.Env):
         self.observation_space = spaces.Box(low=0, high=100, shape=(self.num_models,), dtype=np.float32)
 
     def reset(self):
-        self.hour = 0
-        return self.workload[self.hour]
+        self.current_step = 0
+        self.state = self.workload[self.current_step] / 100.0  # 🔹 Normalize
+        return self.state
 
+    
     def step(self, action):
-        demand = self.workload[self.hour]
-        
-        # Scale action from [-1, 1] to [0, 100]
         action = np.clip(action, 0, 1)
-        alloc = action * 100
-        
-        # Normalize to sum = 100
-        if alloc.sum() > 0:
-            alloc = (alloc / alloc.sum()) * 100
-        else:
-            alloc = np.ones(self.num_models) * (100 / self.num_models)
+        scaled = action * 100
+        alloc = (scaled / scaled.sum()) * 100 if scaled.sum() > 0 else np.ones(3) * (100 / 3)
 
+        demand = self.workload[self.current_step]
         diff = np.abs(demand - alloc)
-        reward = -np.sum(diff)
 
-        self.hour += 1
-        done = self.hour >= len(self.workload)
-        next_state = self.workload[self.hour] if not done else np.zeros(self.num_models)
+        # 🔻 Modified reward function
+        reward = -np.sum(diff ** 1.5)  # Penalize larger mismatches more harshly
+        if np.all(diff < 5):
+            reward += 10  # Bonus for close match
 
-        return next_state, reward, done, {}
+        self.current_step += 1
+        done = self.current_step >= len(self.workload)
+
+        # 🔹 Normalize state for better training
+        if not done:
+            self.state = self.workload[self.current_step] / 100.0
+        else:
+            self.state = np.zeros_like(self.workload[0])  # dummy state on end
+
+        return self.state, reward, done, {}
+
 
 
     def render(self, mode='human'):
